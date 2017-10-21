@@ -38,6 +38,8 @@ def open_time(control_dist_km, brevet_dist_km, brevet_start_time):
     """
     if (control_dist_km <= 0 or control_dist_km > brevet_dist_km*1.1):
         return arrow.get(brevet_start_time).shift(hours=+timezone_shift).isoformat()
+    if (control_dist_km >= brevet_dist_km and control_dist_km <= brevet_dist_km*1.1):
+        control_dist_km = brevet_dist_km
 
     hours_till_open = control_dist_km/max_speeds[brevet_dist_km]
     opening_time =  arrow.get(brevet_start_time).shift(hours=+hours_till_open+timezone_shift).isoformat()

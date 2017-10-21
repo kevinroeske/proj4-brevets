@@ -20,11 +20,13 @@ iterator = 0
 for i in testTwoHundred:
     test_value = arrow.get(acp_times.open_time(i, 200, '2017-01-01T00:00:00')).shift(hours=-8).isoformat()
     expected_value = arrow.get(rsltTwo[iterator]).isoformat()
-    print(test_value)
-    print(expected_value)
-    if test_value == expected_value:
+    print("Testing at distance " + str(i) + ':')
+    print("Generated time: " + test_value[:16])
+    print("Expected time: " + expected_value[:16])
+    if test_value[:16] == expected_value[:16]:
         print("Test Passed")
     else:
         print("Test Failed")
     iterator+=1
+    print("")
     
