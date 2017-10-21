@@ -124,10 +124,13 @@
   // stash them in hidden fields.) 
   function calc_times(control) {
     var km = control.find("input[name='km']").val();
+    var brev_start = $("#begin_date").val() + "T" + $("#begin_time").val();
+    var brev_dist = $("#brevet_dist_km").val();
+    console.log("Start date/time is " + brev_start);
     var open_time_field = control.find("input[name='open']");
     var close_time_field = control.find("input[name='close']");
     
-    $.getJSON(TIME_CALC_URL, { km: km }, 
+    $.getJSON(TIME_CALC_URL, { km: km, brev_start: brev_start, brev_dist: brev_dist }, 
       // response handler
       function(data) {
          var times = data.result;
@@ -153,6 +156,12 @@
              // Then calculate times for this entry
              calc_times(control_entry);
           });
+      $("#brev_dist_km").change(
+	 function() {
+	     var empty_table = document.createElement('mtTable');
+	     pululate_with_new_rows(empty_table);
+	     $(this).parentNode.replaceChild(empty_table, $(this));
+	});
 
       $('input[name="km"]').change(
          function() {
