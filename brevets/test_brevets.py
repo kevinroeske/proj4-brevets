@@ -24,12 +24,17 @@ rsltFou=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00
 rsltSix=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
 rsltTho=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
 
-def test_start_times():
-    iterator = 0
-    for i in testTwoHundred:
-        test_value = arrow.get(acp_times.open_time(i, 200, '2017-01-01T00:00:00')).shift(hours=-8).isoformat()[:16]
-        expected_value = arrow.get(rsltTwo[iterator]).isoformat()[:16]
-        assert (test_value == expected_value)
-        iterator+=1
-        
+iterator = 0
+for i in testTwoHundred:
+    test_value = arrow.get(acp_times.open_time(i, 200, '2017-01-01T00:00:00')).shift(hours=-8).isoformat()
+    expected_value = arrow.get(rsltTwo[iterator]).isoformat()
+    print("Testing at distance " + str(i) + ':')
+    print("Generated time: " + test_value[:16])
+    print("Expected time: " + expected_value[:16])
+    if test_value[:16] == expected_value[:16]:
+        print("Test Passed")
+    else:
+        print("Test Failed")
+    iterator+=1
+    print("")
     
