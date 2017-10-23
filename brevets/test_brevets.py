@@ -16,9 +16,11 @@ open_km = [300, 1000, 1000, 1000]          #for opening times, an arbitrary zero
 open_ctrl = [0, 999, 1000, 1100]            #this should demonstrate that the calculations are correct
 open_expected = ['2017-01-01T00:00', '2017-01-02T09:03', '2017-01-02T09:05', '2017-01-02T09:05']
 
-close_km = [600, 600, 1000, 1000, 1000]     #for close times, we do a zero again, then 650km checkpoints on 600 and 1000km brevets
-close_ctrl = [0, 650, 650, 999, 1005]       #to be sure they're correct, then edge cases for 1000km
+close_km = [600, 600, 1000, 1000, 1000]     #for close times, we do a too-long, then 650km checkpoints on 600 and 1000km brevets
+close_ctrl = [670, 650, 650, 999, 1005]     #to be sure they're correct, then edge cases for 1000km
 close_expected = ['2017-01-01T01:00', '2017-01-02T16:00', '2017-01-02T20:23', '2017-01-04T02:55', '2017-01-04T03:00']
+
+#all "expected times" are drawn from the official RUSA calculator
 
 def test_start_times():
     i = 0 

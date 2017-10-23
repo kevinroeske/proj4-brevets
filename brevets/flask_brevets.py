@@ -59,8 +59,8 @@ def _calc_times():
     app.logger.debug("request.args: {}".format(request.args))
     # FIXME: These probably aren't the right open and close times
     # and brevets may be longer than 200km
-    open_time = acp_times.open_time(km, distance, start_time)
-    close_time = acp_times.close_time(km, distance, start_time)
+    open_time = acp_times.open_time(km, distance, start_time)       #easy, just call the functions from acp_times,
+    close_time = acp_times.close_time(km, distance, start_time)     #jsonify their results, and send the cookie back
     result = {"open": open_time, "close": close_time}
     return flask.jsonify(result=result)
 

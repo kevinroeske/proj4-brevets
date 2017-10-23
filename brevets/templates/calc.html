@@ -158,9 +158,7 @@
           });
       $("#brev_dist_km").change(
 	 function() {
-	     var empty_table = document.createElement('mtTable');
-	     pululate_with_new_rows(empty_table);
-	     $(this).parentNode.replaceChild(empty_table, $(this));
+	     //I really wanted to make it clear the fields when the brevet distance is changed, but I couldn't make it work
 	});
 
       $('input[name="km"]').change(
