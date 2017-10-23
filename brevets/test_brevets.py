@@ -1,40 +1,37 @@
 #test suite for brevet calculator
 #
-#Seven cases for each: an invalid (negative) distance, 0, a generic middle, and edge cases for the end.
+#See comments for explanation of case choice
 #Note that I've set my calculator to just return the generic start time if the distance is invalid
 #
-#This one may be incomplete, but it tests the 200km brevet distance extensively
+#
 #
 #
 #
 import acp_times
 import arrow
-#from acp_times import open_time(control_dist_km, brevet_dist_km, brevet_start_time)
-#from acp_times import close_time(control_dist_km, brevet_dist_km, brevet_start_time)
+tzvalue = 8 
+brevet_start_time = '2017-01-01T00:00'
 
-testTwoHundred = [-5, 0, 100, 199, 200, 220, 221]
-testThreeHundred = [-5, 0, 100, 299, 300, 330, 331]
-testFourHundred = [-5, 0, 100, 399, 400, 440, 441]
-testSixHundred = [-5, 0, 100, 599, 600, 660, 661]
-testThousand = [-5, 0, 100, 999, 1000, 11000, 1101]
+open_km = [300, 1000, 1000, 1000]          #for opening times, an arbitrary zero distance, and a couple of edge cases for 1000km
+open_ctrl = [0, 999, 1000, 1100]            #this should demonstrate that the calculations are correct
+open_expected = ['2017-01-01T00:00', '2017-01-02T09:03', '2017-01-02T09:05', '2017-01-02T09:05']
 
-rsltTwo=['2017-01-01T00:00','2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
-rsltThr=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
-rsltFou=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
-rsltSix=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
-rsltTho=['2017-01-01T00:00','2017-01-01T02:56','2017-01-01T05:51','2017-01-01T00:00','2017-01-01T05:52','2017-01-01T05:52','2017-01-01T00:00']
+close_km = [600, 600, 1000, 1000, 1000]     #for close times, we do a zero again, then 650km checkpoints on 600 and 1000km brevets
+close_ctrl = [0, 650, 650, 999, 1005]       #to be sure they're correct, then edge cases for 1000km
+close_expected = ['2017-01-01T01:00', '2017-01-02T16:00', '2017-01-02T20:23', '2017-01-04T02:55', '2017-01-04T03:00']
 
-iterator = 0
-for i in testTwoHundred:
-    test_value = arrow.get(acp_times.open_time(i, 200, '2017-01-01T00:00:00')).shift(hours=-8).isoformat()
-    expected_value = arrow.get(rsltTwo[iterator]).isoformat()
-    print("Testing at distance " + str(i) + ':')
-    print("Generated time: " + test_value[:16])
-    print("Expected time: " + expected_value[:16])
-    if test_value[:16] == expected_value[:16]:
-        print("Test Passed")
-    else:
-        print("Test Failed")
-    iterator+=1
-    print("")
-    
+def test_start_times():
+    i = 0 
+    for dist in open_km:
+        test_value = arrow.get(acp_times.open_time(open_ctrl[i], open_km[i], brevet_start_time)).shift(hours=-tzvalue).isoformat()[:16]
+        expected_value = open_expected[i]
+        assert (test_value == expected_value)
+        i += 1
+
+def test_close_times():
+    i = 0 
+    for dist in close_km:
+        test_value = arrow.get(acp_times.close_time(close_ctrl[i], close_km[i], brevet_start_time)).shift(hours=-tzvalue).isoformat()[:16]
+        expected_value = close_expected[i]
+        assert (test_value == expected_value)
+        i += 1
